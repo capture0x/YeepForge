@@ -1,0 +1,7 @@
+# YeepForge runtime dependencies - pinned to a tested, reproducible set.
+# Regenerate with: venv/bin/pip freeze | grep -iE 'anthropic|requests|beautifulsoup4|lxml|^mcp=='
+anthropic==0.103.1
+requests==2.34.2
+beautifulsoup4==4.14.3
+lxml==6.1.1
+mcp==1.27.2

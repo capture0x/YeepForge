@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yeepforge"
+version = "1.0.0"
+description = "YeepForge - automated web application penetration testing framework (OWASP Top 10 + MCP)"
+readme = "README.md"
+# The codebase uses PEP 701 nested-quote f-strings (e.g. modules/race_idor.py,
+# modules/lfi_rfi.py) which only parse on Python 3.12+.
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "capture0x" }]
+maintainers = [{ name = "tmrswrr" }]
+keywords = [
+    "security",
+    "pentest",
+    "owasp",
+    "web-security",
+    "mcp",
+    "vulnerability-scanner",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+dependencies = [
+    "anthropic>=0.30.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "lxml>=4.9.0",
+    "mcp>=1.0.0",
+]
+
+[project.optional-dependencies]
+# Headless crawling. Optional because it pulls a browser binary (~150MB); the
+# regex crawler still runs without it, it just cannot see a JavaScript app's
+# surface. After installing: `playwright install chromium`.
+browser = [
+    "playwright>=1.40",
+]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/capture0x/YeepForge"
+Repository = "https://github.com/capture0x/YeepForge"
+Issues = "https://github.com/capture0x/YeepForge/issues"
+
+[project.scripts]
+yeepforge = "main:main"
+
+[tool.setuptools]
+py-modules = ["main", "mcp_server"]
+
+[tool.setuptools.packages.find]
+include = ["modules*", "config*", "utils*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+# Pragmatic set for a security tool: catch real bugs (pyflakes) and keep imports
+# tidy, but don't fight the codebase's deliberately compact one-line style
+# (E7xx) or its long banner/payload strings (E501).
+select = ["F", "I"]
+ignore = [
+    "F841",  # unused locals - several hold intentional side-effect results
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F841"]
+"__init__.py" = ["F401"]  # package re-exports are intentional

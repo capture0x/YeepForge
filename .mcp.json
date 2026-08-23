@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "yeepforge": {
+      "command": "venv/bin/python3",
+      "args": ["mcp_server.py"],
+      "env": {}
+    }
+  }
+}
