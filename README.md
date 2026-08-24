@@ -14,6 +14,8 @@
 
 > **Give it a URL. Give it source code. Watch it hack.**
 
+<img src="assets/1.png" alt="YeepForge" width="800">
+
 </div>
 
 ---
